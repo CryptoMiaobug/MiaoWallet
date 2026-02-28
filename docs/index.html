@@ -326,34 +326,38 @@
   <section>
     <div class="container">
       <h2><span>Live Transactions</span></h2>
-      <p style="text-align:center;color:#90a4ae;margin-bottom:24px">Real transactions executed by AI agent through MiaoWallet</p>
+      <p style="text-align:center;color:#90a4ae;margin-bottom:24px">Real transactions executed by AI agent through MiaoWallet — all mainnet transactions recorded on Walrus as immutable attestations</p>
       <table class="tx-table">
-        <thead><tr><th>Type</th><th>Details</th><th>Explorer</th></tr></thead>
+        <thead><tr><th>Type</th><th>Details</th><th>Explorer</th><th>Walrus Attestation</th></tr></thead>
         <tbody>
           <tr>
             <td><span class="tag transfer">Transfer</span></td>
             <td>0.1 SUI (wallet 02 → 01)</td>
             <td><a href="https://suiscan.xyz/mainnet/tx/A2mYfXUzXwTJBcZu9RNFvJBY2423YvruPXrH3wBKcj16" target="_blank">A2mYfX…cj16</a></td>
+            <td><span class="tag attest">📦 Recorded</span></td>
           </tr>
           <tr>
             <td><span class="tag swap">Swap</span></td>
             <td>0.5 SUI → 6.05 WAL via Cetus</td>
             <td><a href="https://suiscan.xyz/mainnet/tx/CVvyusHbuXEKANh8d7MLqi8VyRnvmYRg59iumeuhTHAG" target="_blank">CVvyus…THAG</a></td>
+            <td><span class="tag attest">📦 Recorded</span></td>
           </tr>
           <tr>
             <td><span class="tag attest">Attestation</span></td>
-            <td>Transfer record on Walrus</td>
-            <td><code style="color:#66bb6a;font-size:0.85em">SYaSI7…FERA</code></td>
+            <td>Transfer record stored on Walrus</td>
+            <td colspan="2"><code style="color:#66bb6a;font-size:0.85em">Blob ID: SYaSI7…FERA</code></td>
           </tr>
           <tr>
             <td><span class="tag transfer">Transfer</span></td>
-            <td>0.01 SUI → bvlgari.sui (SuiNS)</td>
+            <td>0.01 SUI → bvlgari.sui (Testnet)</td>
             <td><a href="https://suiscan.xyz/testnet/tx/7tdZ644hwAqUEcN3tzvCrwBKYL8HetatKimy3vDGyFW1" target="_blank">7tdZ64…FW1</a></td>
+            <td style="color:#546e7a;font-size:0.85em">Testnet</td>
           </tr>
           <tr>
             <td><span class="tag bet">RPS Bet</span></td>
-            <td>11 USDC Paper via Browser Mode</td>
+            <td>11 USDC Paper via Browser Mode (Testnet)</td>
             <td><a href="https://suiscan.xyz/testnet/object/0x59ecf86b8a5db5a2f6d2aa01c6b5bb0f84ab2f9b1617780bde45d8024cd885f1" target="_blank">Game Object</a></td>
+            <td style="color:#546e7a;font-size:0.85em">Testnet</td>
           </tr>
         </tbody>
       </table>
