@@ -5,7 +5,7 @@
 MiaoWallet is a security middleware that lets AI agents operate on the Sui blockchain **without ever touching private keys**. It bridges the gap between AI autonomy and key safety through session-based signing, dual operation modes, and on-chain audit trails.
 
 🌐 **Live Demo**: [cryptomiao.wal.app](https://cryptomiao.wal.app) (Walrus Sites)  
-📦 **GitHub**: [CryptoMiaobug/MiaoWellet-SecureWallet-4Openclaw](https://github.com/CryptoMiaobug/MiaoWellet-SecureWallet-4Openclaw)
+📦 **GitHub**: [CryptoMiaobug/MiaoWallet](https://github.com/CryptoMiaobug/MiaoWallet)
 
 ---
 
@@ -139,7 +139,8 @@ All transactions executed by AI agent through MiaoWallet on Sui Mainnet:
 | Transfer | 0.1 SUI (wallet 02 → 01) | [A2mYfX...cj16](https://suiscan.xyz/mainnet/tx/A2mYfXUzXwTJBcZu9RNFvJBY2423YvruPXrH3wBKcj16) |
 | Swap | 0.5 SUI → 6.05 WAL via Cetus | [CVvyus...THAG](https://suiscan.xyz/mainnet/tx/CVvyusHbuXEKANh8d7MLqi8VyRnvmYRg59iumeuhTHAG) |
 | Attestation | Transfer record on Walrus | `SYaSI7...FERA` |
-| Transfer | 0.01 SUI → bvlgari.sui (SuiNS) | [7tdZ64...FW1](https://suiscan.xyz/testnet/tx/7tdZ644hwAqUEcN3tzvCrwBKYL8HetatKimy3vDGyFW1) |
+| Transfer | 0.01 SUI → bvlgari.sui (SuiNS) | [7tdZ64...FW1](https://suiscan.xyz/mainnet/tx/7tdZ644hwAqUEcN3tzvCrwBKYL8HetatKimy3vDGyFW1) |
+| Attestation | Transfer 0.01 SUI → bvlgari.sui on Walrus | `kXAxaq...cQ0` |
 
 ---
 
@@ -223,8 +224,8 @@ The fundamental insight: **Give AI the ability to act, but never the keys to act
 ## Links
 
 - 🌐 Live: [cryptomiao.wal.app](https://cryptomiao.wal.app)
-- 📄 GitHub Pages: [cryptomiaobug.github.io/MiaoWellet-SecureWallet-4Openclaw](https://cryptomiaobug.github.io/MiaoWellet-SecureWallet-4Openclaw/)
-- 💻 Source: [github.com/CryptoMiaobug/MiaoWellet-SecureWallet-4Openclaw](https://github.com/CryptoMiaobug/MiaoWellet-SecureWallet-4Openclaw)
+- 📄 GitHub Pages: [cryptomiaobug.github.io/MiaoWallet](https://cryptomiaobug.github.io/MiaoWallet/)
+- 💻 Source: [github.com/CryptoMiaobug/MiaoWallet](https://github.com/CryptoMiaobug/MiaoWallet)
 
 ---
 
