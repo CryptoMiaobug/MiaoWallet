@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MiaoWallet — Secure Agent Wallet for Sui</title>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#0a0e17;color:#e0e0e0;line-height:1.7}
+    .container{max-width:960px;margin:0 auto;padding:0 24px}
+    a{color:#4fc3f7;text-decoration:none}
+    a:hover{text-decoration:underline}
+
+    /* Hero */
+    .hero{text-align:center;padding:80px 0 60px;background:linear-gradient(135deg,#0a0e17 0%,#1a1f35 50%,#0a0e17 100%)}
+    .hero h1{font-size:3.2em;font-weight:700;background:linear-gradient(135deg,#4fc3f7,#7c4dff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:12px}
+    .hero .tagline{font-size:1.3em;color:#90a4ae;margin-bottom:8px}
+    .hero .track{display:inline-block;background:rgba(76,175,80,0.15);color:#66bb6a;padding:6px 20px;border-radius:20px;font-size:0.95em;margin-bottom:28px;border:1px solid rgba(76,175,80,0.3)}
+    .hero .desc{color:#78909c;max-width:600px;margin:0 auto 32px;font-size:1.05em}
+    .badges span{display:inline-block;background:rgba(79,195,247,0.12);color:#4fc3f7;padding:5px 14px;border-radius:20px;margin:4px;font-size:0.85em}
+    .hero-links{margin-top:28px}
+    .hero-links a{display:inline-block;padding:10px 28px;border-radius:8px;margin:6px;font-weight:600;font-size:0.95em}
+    .hero-links .primary{background:linear-gradient(135deg,#4fc3f7,#7c4dff);color:#fff}
+    .hero-links .secondary{border:1px solid rgba(255,255,255,0.2);color:#e0e0e0}
+
+    /* Sections */
+    section{padding:64px 0}
+    section:nth-child(even){background:rgba(255,255,255,0.02)}
+    h2{font-size:1.8em;margin-bottom:32px;text-align:center;color:#fff}
+    h2 span{background:linear-gradient(135deg,#4fc3f7,#7c4dff);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+
+    /* Problem/Solution */
+    .ps-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+    .ps-card{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:32px}
+    .ps-card h3{font-size:1.15em;margin-bottom:12px}
+    .ps-card.problem{border-color:rgba(244,67,54,0.3)}.ps-card.problem h3{color:#ef5350}
+    .ps-card.solution{border-color:rgba(76,175,80,0.3)}.ps-card.solution h3{color:#66bb6a}
+    .ps-card ul{list-style:none;margin-top:12px}.ps-card li{padding:4px 0;padding-left:20px;position:relative;color:#b0bec5}
+    .ps-card.problem li::before{content:'✗';position:absolute;left:0;color:#ef5350}
+    .ps-card.solution li::before{content:'✓';position:absolute;left:0;color:#66bb6a}
+
+    /* Architecture */
+    .arch{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:40px;text-align:center}
+    .arch-row{display:flex;align-items:center;justify-content:center;gap:12px;margin:8px 0;flex-wrap:wrap}
+    .arch-box{background:rgba(79,195,247,0.1);border:1px solid rgba(79,195,247,0.3);border-radius:12px;padding:14px 24px;min-width:140px}
+    .arch-box .label{font-size:0.75em;color:#90a4ae;text-transform:uppercase;letter-spacing:0.5px}
+    .arch-box .name{font-size:1.05em;font-weight:600;color:#fff}
+    .arch-box.gold{background:rgba(255,193,7,0.1);border-color:rgba(255,193,7,0.4)}
+    .arch-box.green{background:rgba(76,175,80,0.1);border-color:rgba(76,175,80,0.3)}
+    .arch-box.purple{background:rgba(179,136,255,0.1);border-color:rgba(179,136,255,0.3)}
+    .arch-arrow{font-size:1.4em;color:#4fc3f7}
+    .arch-split{display:flex;gap:40px;justify-content:center;margin-top:16px}
+    .arch-branch{display:flex;flex-direction:column;align-items:center;gap:8px;flex:1;max-width:280px}
+    .arch-branch .branch-title{font-weight:600;font-size:0.95em;margin-bottom:4px}
+
+    /* Dual Mode */
+    .dual{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+    .mode{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:32px}
+    .mode h3{font-size:1.15em;color:#4fc3f7;margin-bottom:4px}
+    .mode .sub{color:#90a4ae;font-size:0.9em;margin-bottom:16px}
+    .mode ul{list-style:none}.mode li{padding:5px 0;padding-left:22px;position:relative}
+    .mode li::before{content:'✓';position:absolute;left:0;color:#66bb6a}
+
+    /* Security */
+    .sec-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+    .sec-item{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:24px}
+    .sec-item h4{color:#66bb6a;margin-bottom:8px;font-size:1.05em}
+    .sec-item p{color:#90a4ae;font-size:0.92em}
+
+    /* Flow diagram */
+    .flow{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;margin:24px 0;padding:20px;background:rgba(255,255,255,0.03);border-radius:12px}
+    .flow-step{background:rgba(79,195,247,0.1);border:1px solid rgba(79,195,247,0.25);border-radius:8px;padding:8px 16px;font-size:0.9em;color:#e0e0e0}
+    .flow-step.secure{background:rgba(76,175,80,0.1);border-color:rgba(76,175,80,0.3);color:#66bb6a}
+    .flow-arrow{color:#4fc3f7;font-size:1.2em}
+
+    /* Tools */
+    .tools{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+    .tool{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:16px 20px}
+    .tool .tn{font-family:'SF Mono',Menlo,monospace;color:#4fc3f7;font-size:0.9em}
+    .tool .td{color:#90a4ae;font-size:0.88em;margin-top:4px}
+
+    /* TX table */
+    .tx-table{width:100%;border-collapse:collapse;margin:24px 0}
+    .tx-table th,.tx-table td{padding:12px 16px;text-align:left;border-bottom:1px solid rgba(255,255,255,0.08)}
+    .tx-table th{color:#90a4ae;font-weight:500;font-size:0.88em}
+    .tx-table td{font-size:0.9em}
+    .tag{display:inline-block;padding:2px 10px;border-radius:12px;font-size:0.8em}
+    .tag.transfer{background:rgba(79,195,247,0.15);color:#4fc3f7}
+    .tag.swap{background:rgba(124,77,255,0.15);color:#b388ff}
+    .tag.attest{background:rgba(76,175,80,0.15);color:#66bb6a}
+    .tag.bet{background:rgba(255,193,7,0.15);color:#ffd54f}
+
+    /* Demo */
+    .demo-placeholder{background:rgba(255,255,255,0.05);border:2px dashed rgba(255,255,255,0.15);border-radius:16px;padding:60px 40px;text-align:center;color:#90a4ae;margin:24px 0}
+    .screenshot{text-align:center;margin:24px 0}
+    .screenshot img{max-width:100%;border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,0.4);border:1px solid rgba(255,255,255,0.1)}
+    .screenshot p{color:#90a4ae;margin-top:10px;font-size:0.9em}
+
+    /* Footer */
+    footer{text-align:center;padding:40px 0;border-top:1px solid rgba(255,255,255,0.08);color:#90a4ae;font-size:0.9em}
+
+    /* Responsive */
+    @media(max-width:768px){
+      .hero h1{font-size:2.2em}
+      .ps-grid,.dual,.sec-grid{grid-template-columns:1fr}
+      .arch-split{flex-direction:column;align-items:center;gap:24px}
+      .flow{flex-direction:column}.flow-arrow{transform:rotate(90deg)}
+    }
+  </style>
+</head>
+<body>
+
+  <div class="hero">
+    <div class="container">
+      <h1>🐱 MiaoWallet</h1>
+      <p class="tagline">Secure Agent Wallet for Sui</p>
+      <div class="track">🛡 Track 1: Safety & Security</div>
+      <p class="desc">AI agents operate on-chain without ever touching private keys. Session-based signing, dual operation modes, and on-chain audit trails.</p>
+      <div class="badges">
+        <span>🔐 Keychain Isolation</span>
+        <span>⏱ Session Limits</span>
+        <span>🤖 OpenClaw Powered</span>
+        <span>🔄 Cetus DEX</span>
+        <span>📦 Walrus Attestation</span>
+        <span>🌐 Sui Mainnet</span>
+      </div>
+      <div class="hero-links">
+        <a href="https://github.com/CryptoMiaobug/MiaoWellet-SecureWallet-4Openclaw" target="_blank" class="primary">GitHub Source</a>
+        <a href="https://cryptomiao.wal.app" target="_blank" class="secondary">Walrus Sites ↗</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Problem / Solution -->
+  <section>
+    <div class="container">
+      <h2><span>Why MiaoWallet?</span></h2>
+      <div class="ps-grid">
+        <div class="ps-card problem">
+          <h3>❌ The Problem</h3>
+          <p>AI agents need blockchain access, but current approaches are broken:</p>
+          <ul>
+            <li>Give agent the private key → total loss if compromised</li>
+            <li>Manual approval per tx → defeats automation</li>
+            <li>Shared .env files → keys in plaintext, easily leaked</li>
+            <li>No audit trail → can't verify what AI did</li>
+          </ul>
+        </div>
+        <div class="ps-card solution">
+          <h3>✅ The Solution</h3>
+          <p>MiaoWallet separates key custody from transaction logic:</p>
+          <ul>
+            <li>Keys in macOS Keychain — never leave the device</li>
+            <li>Session-based signing — time & count limited</li>
+            <li>Whitelist control — approved DApps only</li>
+            <li>Walrus attestation — every action auditable</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Core Insight -->
+  <section>
+    <div class="container">
+      <h2><span>How It Works</span></h2>
+      <div class="flow">
+        <div class="flow-step">🤖 AI Agent</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">📋 Session Check</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">🛡 Whitelist</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step secure">🔐 Keychain Sign</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">⛓ Sui Network</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">📦 Walrus Audit</div>
+      </div>
+      <p style="text-align:center;color:#90a4ae;font-size:0.95em;margin-top:16px">
+        The agent decides <em>what</em> to do. MiaoWallet handles <em>how</em> to sign — securely, within user-defined limits.
+      </p>
+    </div>
+  </section>
+
+  <!-- Architecture -->
+  <section>
+    <div class="container">
+      <h2><span>Architecture</span></h2>
+      <div class="arch">
+        <div class="arch-row">
+          <div class="arch-box"><div class="label">AI Agent</div><div class="name">🤖 OpenClaw</div></div>
+        </div>
+        <div class="arch-arrow">↓</div>
+        <div class="arch-row">
+          <div class="arch-box gold"><div class="label">Wallet System</div><div class="name">🐱 MiaoWallet Bridge</div></div>
+        </div>
+        <div class="arch-arrow">↓</div>
+        <div class="arch-split">
+          <div class="arch-branch">
+            <div class="branch-title" style="color:#4fc3f7">⚡ API Mode</div>
+            <div class="arch-box"><div class="label">Tools</div><div class="name">MCP Server</div></div>
+            <div class="arch-arrow">↓</div>
+            <div class="arch-box"><div class="label">Signing</div><div class="name">Bridge API</div></div>
+          </div>
+          <div class="arch-branch">
+            <div class="branch-title" style="color:#b388ff">🌐 Browser Mode</div>
+            <div class="arch-box purple"><div class="label">Browser</div><div class="name">Relay → DApp</div></div>
+            <div class="arch-arrow">↓</div>
+            <div class="arch-box purple"><div class="label">Wallet</div><div class="name">Extension</div></div>
+          </div>
+        </div>
+        <div class="arch-arrow">↓</div>
+        <div class="arch-row">
+          <div class="arch-box green"><div class="label">🔒 Secure Store</div><div class="name">macOS Keychain</div></div>
+          <div class="arch-arrow">→</div>
+          <div class="arch-box"><div class="label">Blockchain</div><div class="name">Sui Network</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Dual Mode -->
+  <section>
+    <div class="container">
+      <h2><span>Two Operation Modes</span></h2>
+      <div class="dual">
+        <div class="mode">
+          <h3>⚡ API Mode</h3>
+          <div class="sub">MCP Server — 10 tools for programmatic access</div>
+          <ul>
+            <li>Transfer SUI / any token</li>
+            <li>Cetus Aggregator swap (30+ DEXs)</li>
+            <li>Walrus attestation storage</li>
+            <li>Balance queries, session status</li>
+            <li>Best for known protocols</li>
+          </ul>
+        </div>
+        <div class="mode">
+          <h3>🌐 Browser Mode</h3>
+          <div class="sub">Chrome Extension + OpenClaw Browser Relay</div>
+          <ul>
+            <li>Works with ANY DApp — zero integration</li>
+            <li>Agent controls page like a human</li>
+            <li>Wallet Standard v2 compatible</li>
+            <li>JSON v2 → BCS build on Bridge</li>
+            <li>Universal DApp compatibility</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Security -->
+  <section>
+    <div class="container">
+      <h2><span>Security Model</span></h2>
+      <div class="sec-grid">
+        <div class="sec-item">
+          <h4>🔐 Key Isolation</h4>
+          <p>Private keys in macOS Keychain (hardware-backed). Never in files, env vars, or agent memory. Each access requires user authorization.</p>
+        </div>
+        <div class="sec-item">
+          <h4>⏱ Session Limits</h4>
+          <p>Time-limited + count-limited signing sessions. Auto-expire, no permanent keys. Instant manual revocation.</p>
+        </div>
+        <div class="sec-item">
+          <h4>🛡 Whitelist Control</h4>
+          <p>Origin whitelist (approved DApp domains) + Contract whitelist (approved Move packages). Unauthorized = rejected.</p>
+        </div>
+        <div class="sec-item">
+          <h4>📋 Walrus Audit Trail</h4>
+          <p>Every transaction stored as immutable attestation on Walrus decentralized storage. AI behavior fully auditable.</p>
+        </div>
+        <div class="sec-item">
+          <h4>🔒 Keeper Encryption</h4>
+          <p>Automated bots: PBKDF2 + Fernet encrypted keys. Decrypted only in memory at startup. .env never has plaintext.</p>
+        </div>
+        <div class="sec-item">
+          <h4>🚫 Revocation</h4>
+          <p>One-click session kill in WebGUI. Agent immediately loses signing ability. No residual access.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Demo -->
+  <section>
+    <div class="container">
+      <h2><span>Demo</span></h2>
+      <div class="screenshot">
+        <img src="https://cryptomiaobug.github.io/MiaoWellet-SecureWallet-4Openclaw/miaowallet-screenshot.jpg" alt="MiaoWallet Pro WebGUI">
+        <p>MiaoWallet Pro — Dual-mode session control with API & Browser signing</p>
+      </div>
+      <div class="screenshot">
+        <img src="https://cryptomiaobug.github.io/MiaoWellet-SecureWallet-4Openclaw/whitelist-screenshot.jpg" alt="Whitelist Management">
+        <p>Origin & Contract whitelist — only approved DApps can request signatures</p>
+      </div>
+      <div class="demo-placeholder">
+        🎬 Demo video coming soon<br>
+        <small style="color:#546e7a">API Mode: balance → transfer → swap → attestation<br>Browser Mode: AI plays RPS game via Agent Wallet</small>
+      </div>
+    </div>
+  </section>
+
+  <!-- MCP Tools -->
+  <section>
+    <div class="container">
+      <h2><span>10 MCP Tools</span></h2>
+      <div class="tools">
+        <div class="tool"><div class="tn">get_address</div><div class="td">Connected wallet address & network</div></div>
+        <div class="tool"><div class="tn">get_balance</div><div class="td">Token balances (SUI, USDC, WAL…)</div></div>
+        <div class="tool"><div class="tn">get_session_status</div><div class="td">Session limits & expiry info</div></div>
+        <div class="tool"><div class="tn">list_wallets</div><div class="td">All saved wallets across chains</div></div>
+        <div class="tool"><div class="tn">sign_transaction</div><div class="td">Sign raw transaction bytes</div></div>
+        <div class="tool"><div class="tn">transfer_sui</div><div class="td">Transfer SUI to any address</div></div>
+        <div class="tool"><div class="tn">transfer_coin</div><div class="td">Transfer any token (USDC, WAL…)</div></div>
+        <div class="tool"><div class="tn">swap_token</div><div class="td">DEX swap via Cetus Aggregator</div></div>
+        <div class="tool"><div class="tn">store_attestation</div><div class="td">Store tx attestation on Walrus</div></div>
+        <div class="tool"><div class="tn">read_attestation</div><div class="td">Read attestation by Blob ID</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Live TX -->
+  <section>
+    <div class="container">
+      <h2><span>Live Transactions</span></h2>
+      <p style="text-align:center;color:#90a4ae;margin-bottom:24px">Real transactions executed by AI agent through MiaoWallet</p>
+      <table class="tx-table">
+        <thead><tr><th>Type</th><th>Details</th><th>Explorer</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><span class="tag transfer">Transfer</span></td>
+            <td>0.1 SUI (wallet 02 → 01)</td>
+            <td><a href="https://suiscan.xyz/mainnet/tx/A2mYfXUzXwTJBcZu9RNFvJBY2423YvruPXrH3wBKcj16" target="_blank">A2mYfX…cj16</a></td>
+          </tr>
+          <tr>
+            <td><span class="tag swap">Swap</span></td>
+            <td>0.5 SUI → 6.05 WAL via Cetus</td>
+            <td><a href="https://suiscan.xyz/mainnet/tx/CVvyusHbuXEKANh8d7MLqi8VyRnvmYRg59iumeuhTHAG" target="_blank">CVvyus…THAG</a></td>
+          </tr>
+          <tr>
+            <td><span class="tag attest">Attestation</span></td>
+            <td>Transfer record on Walrus</td>
+            <td><code style="color:#66bb6a;font-size:0.85em">SYaSI7…FERA</code></td>
+          </tr>
+          <tr>
+            <td><span class="tag transfer">Transfer</span></td>
+            <td>0.01 SUI → bvlgari.sui (SuiNS)</td>
+            <td><a href="https://suiscan.xyz/testnet/tx/7tdZ644hwAqUEcN3tzvCrwBKYL8HetatKimy3vDGyFW1" target="_blank">7tdZ64…FW1</a></td>
+          </tr>
+          <tr>
+            <td><span class="tag bet">RPS Bet</span></td>
+            <td>11 USDC Paper via Browser Mode</td>
+            <td><a href="https://suiscan.xyz/testnet/object/0x59ecf86b8a5db5a2f6d2aa01c6b5bb0f84ab2f9b1617780bde45d8024cd885f1" target="_blank">Game Object</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Why Track 1 -->
+  <section>
+    <div class="container">
+      <h2><span>Why Track 1: Safety & Security?</span></h2>
+      <div class="sec-grid">
+        <div class="sec-item">
+          <h4>1. Key Isolation</h4>
+          <p>Private keys physically separated from AI agent process</p>
+        </div>
+        <div class="sec-item">
+          <h4>2. Least Privilege</h4>
+          <p>Sessions grant minimum necessary access, auto-expire</p>
+        </div>
+        <div class="sec-item">
+          <h4>3. Defense in Depth</h4>
+          <p>Whitelist + session limits + Keychain + audit trail</p>
+        </div>
+        <div class="sec-item">
+          <h4>4. Auditability</h4>
+          <p>Every AI action recorded on Walrus (immutable)</p>
+        </div>
+      </div>
+      <p style="text-align:center;margin-top:32px;font-size:1.1em;color:#e0e0e0">
+        <strong>Give AI the ability to act, but never the keys to act independently.</strong>
+      </p>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <p>
+        Built for <strong>Sui × OpenClaw Agent Hackathon</strong> (DeepSurge)<br>
+        <a href="https://github.com/CryptoMiaobug/MiaoWellet-SecureWallet-4Openclaw" target="_blank">Source Code</a> ·
+        <a href="https://cryptomiao.wal.app" target="_blank">Walrus Sites</a> ·
+        Powered by <a href="https://sui.io" target="_blank">Sui</a> ·
+        <a href="https://openclaw.ai" target="_blank">OpenClaw</a> ·
+        <a href="https://www.cetus.zone" target="_blank">Cetus</a> ·
+        <a href="https://walrus.site" target="_blank">Walrus</a>
+      </p>
+      <p style="margin-top:12px">🐱 Built by CryptoMiao</p>
+    </div>
+  </footer>
+
+</body>
+</html>
