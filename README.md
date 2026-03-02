@@ -5,7 +5,8 @@
 MiaoWallet is a security middleware that lets AI agents operate on the Sui blockchain **without ever touching private keys**. It bridges the gap between AI autonomy and key safety through session-based signing, dual operation modes, and on-chain audit trails.
 
 🌐 **Live Demo**: [cryptomiao.wal.app](https://cryptomiao.wal.app) (Walrus Sites)  
-📦 **GitHub**: [CryptoMiaobug/MiaoWallet](https://github.com/CryptoMiaobug/MiaoWallet)
+📦 **GitHub**: [CryptoMiaobug/MiaoWallet](https://github.com/CryptoMiaobug/MiaoWallet)  
+🎥 **Demo Video**: [YouTube](https://youtu.be/ULemqtnVZiE)
 
 ---
 
