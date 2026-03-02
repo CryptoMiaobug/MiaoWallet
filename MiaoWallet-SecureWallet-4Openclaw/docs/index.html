@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MiaoWallet — AI-Native Agent Wallet for Sui</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #0a0e17;
+      color: #e0e0e0;
+      line-height: 1.6;
+    }
+    .container { max-width: 960px; margin: 0 auto; padding: 0 24px; }
+
+    /* Hero */
+    .hero {
+      text-align: center;
+      padding: 80px 0 60px;
+      background: linear-gradient(135deg, #0a0e17 0%, #1a1f35 50%, #0a0e17 100%);
+    }
+    .hero h1 {
+      font-size: 3em;
+      font-weight: 700;
+      background: linear-gradient(135deg, #4fc3f7, #7c4dff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 16px;
+    }
+    .hero .tagline {
+      font-size: 1.3em;
+      color: #90a4ae;
+      margin-bottom: 32px;
+    }
+    .hero .badges span {
+      display: inline-block;
+      background: rgba(79, 195, 247, 0.15);
+      color: #4fc3f7;
+      padding: 6px 16px;
+      border-radius: 20px;
+      margin: 4px;
+      font-size: 0.9em;
+    }
+
+    /* Section */
+    section { padding: 60px 0; }
+    section h2 {
+      font-size: 1.8em;
+      margin-bottom: 32px;
+      color: #fff;
+      text-align: center;
+    }
+    section h2 span {
+      background: linear-gradient(135deg, #4fc3f7, #7c4dff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* Problem/Solution */
+    .problem-solution {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-bottom: 40px;
+    }
+    .card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 16px;
+      padding: 32px;
+    }
+    .card h3 {
+      font-size: 1.2em;
+      margin-bottom: 12px;
+      color: #fff;
+    }
+    .card.problem { border-color: rgba(244, 67, 54, 0.3); }
+    .card.problem h3 { color: #ef5350; }
+    .card.solution { border-color: rgba(76, 175, 80, 0.3); }
+    .card.solution h3 { color: #66bb6a; }
+
+    /* Architecture */
+    .arch-diagram {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 16px;
+      padding: 40px;
+      text-align: center;
+      margin: 32px 0;
+    }
+    .arch-flow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin: 24px 0;
+    }
+    .arch-box {
+      background: rgba(79, 195, 247, 0.1);
+      border: 1px solid rgba(79, 195, 247, 0.3);
+      border-radius: 12px;
+      padding: 16px 24px;
+      text-align: center;
+      min-width: 140px;
+    }
+    .arch-box.secure {
+      background: rgba(76, 175, 80, 0.1);
+      border-color: rgba(76, 175, 80, 0.3);
+    }
+    .arch-box .label { font-size: 0.8em; color: #90a4ae; }
+    .arch-box .name { font-size: 1.1em; font-weight: 600; color: #fff; }
+    .arch-arrow { font-size: 1.5em; color: #4fc3f7; }
+    .arch-box.purple {
+      background: rgba(179, 136, 255, 0.1);
+      border-color: rgba(179, 136, 255, 0.3);
+    }
+    .arch-arrow-down { font-size: 1.3em; color: #4fc3f7; margin: 6px 0; }
+    .tree-fork { display: flex; flex-direction: column; align-items: center; margin: 0; }
+    .tree-trunk { width: 2px; height: 24px; background: #4fc3f7; }
+    .tree-hbar { width: 240px; height: 2px; background: #4fc3f7; }
+    .tree-vbars { display: flex; justify-content: space-between; width: 240px; }
+    .tree-vbar { width: 2px; height: 24px; background: #4fc3f7; }
+    .tree-row { display: flex; gap: 60px; justify-content: center; margin-top: 0; }
+    .tree-branch { display: flex; flex-direction: column; align-items: center; flex: 1; max-width: 300px; }
+    .branch-label { font-weight: 600; margin-bottom: 12px; font-size: 1.05em; }
+    .branch-flow { display: flex; flex-direction: column; align-items: center; }
+    .branch-desc { color: #90a4ae; font-size: 0.85em; margin-top: 12px; text-align: center; }
+
+    /* Dual Mode */
+    .dual-mode {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin: 32px 0;
+    }
+    .mode-card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 16px;
+      padding: 32px;
+    }
+    .mode-card h3 {
+      font-size: 1.2em;
+      margin-bottom: 8px;
+      color: #4fc3f7;
+    }
+    .mode-card .subtitle {
+      color: #90a4ae;
+      font-size: 0.9em;
+      margin-bottom: 16px;
+    }
+    .mode-card ul { list-style: none; }
+    .mode-card li {
+      padding: 6px 0;
+      padding-left: 24px;
+      position: relative;
+    }
+    .mode-card li::before {
+      content: '✓';
+      position: absolute;
+      left: 0;
+      color: #66bb6a;
+    }
+
+    /* Tools */
+    .tools-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
+      margin: 32px 0;
+    }
+    .tool-item {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      padding: 20px;
+    }
+    .tool-item .tool-name {
+      font-family: 'SF Mono', monospace;
+      color: #4fc3f7;
+      font-size: 0.95em;
+      margin-bottom: 6px;
+    }
+    .tool-item .tool-desc { color: #90a4ae; font-size: 0.9em; }
+
+    /* Transactions */
+    .tx-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 32px 0;
+    }
+    .tx-table th, .tx-table td {
+      padding: 12px 16px;
+      text-align: left;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .tx-table th {
+      color: #90a4ae;
+      font-weight: 500;
+      font-size: 0.9em;
+    }
+    .tx-table td { font-size: 0.9em; }
+    .tx-table a {
+      color: #4fc3f7;
+      text-decoration: none;
+    }
+    .tx-table a:hover { text-decoration: underline; }
+    .tx-tag {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-size: 0.8em;
+    }
+    .tx-tag.transfer { background: rgba(79, 195, 247, 0.15); color: #4fc3f7; }
+    .tx-tag.swap { background: rgba(124, 77, 255, 0.15); color: #b388ff; }
+    .tx-tag.attest { background: rgba(76, 175, 80, 0.15); color: #66bb6a; }
+
+    /* Video */
+    .video-section { text-align: center; }
+    .video-placeholder {
+      background: rgba(255,255,255,0.05);
+      border: 2px dashed rgba(255,255,255,0.15);
+      border-radius: 16px;
+      padding: 80px 40px;
+      margin: 32px 0;
+      color: #90a4ae;
+    }
+    .video-container {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+      overflow: hidden;
+      border-radius: 16px;
+      margin: 32px 0;
+    }
+    .video-container iframe {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      border: none;
+      border-radius: 16px;
+    }
+
+    /* Security */
+    .security-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin: 32px 0;
+    }
+    .sec-item h4 {
+      color: #66bb6a;
+      margin-bottom: 8px;
+    }
+    .sec-item p { color: #90a4ae; font-size: 0.95em; }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 40px 0;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      color: #90a4ae;
+      font-size: 0.9em;
+    }
+    footer a { color: #4fc3f7; text-decoration: none; }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 2em; }
+      .problem-solution, .dual-mode, .security-grid { grid-template-columns: 1fr; }
+      .arch-flow { flex-direction: column; }
+      .arch-arrow { transform: rotate(90deg); }
+      .tree-row { flex-direction: column; gap: 32px; align-items: center; }
+      .tree-branches { display: none; }
+      .tree-trunk { height: 12px; }
+      .tree-branch { width: 100%; max-width: 280px; }
+      .arch-box { min-width: 120px; padding: 12px 16px; }
+      .arch-box .name { font-size: 1em; }
+      .branch-flow .arch-box { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="container">
+      <h1>🐱 MiaoWallet</h1>
+      <p class="tagline">AI-Native Agent Wallet for Sui</p>
+      <p style="color: #90a4ae; margin-bottom: 24px;">
+        Secure on-chain operations for AI agents.<br>
+        Private keys never leave your device.
+      </p>
+      <div class="badges">
+        <span>🔐 Keychain Security</span>
+        <span>🤖 OpenClaw Powered</span>
+        <span>🔄 Cetus DEX</span>
+        <span>📦 Walrus Storage</span>
+        <span>🌐 Sui Mainnet</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Problem / Solution -->
+  <section>
+    <div class="container">
+      <h2><span>Why MiaoWallet?</span></h2>
+      <div class="problem-solution">
+        <div class="card problem">
+          <h3>❌ The Problem</h3>
+          <p>AI agents need blockchain access, but existing solutions either expose private keys to the agent (unsafe) or require manual approval for every transaction (slow). There's no secure, automated way for agents to operate on-chain.</p>
+        </div>
+        <div class="card solution">
+          <h3>✅ The Solution</h3>
+          <p>MiaoWallet separates key custody from transaction logic. The AI agent decides what to do; MiaoWallet handles the signing — securely, automatically, within user-defined limits. Keys never leave the device.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Demo -->
+  <section class="video-section">
+    <div class="container">
+      <h2><span>Demo</span></h2>
+      <div style="text-align:center;margin-bottom:20px;">
+        <img src="miaowallet-screenshot.jpg" alt="MiaoWallet Pro - WebGUI Screenshot" style="max-width:100%;border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,0.4);border:1px solid rgba(255,255,255,0.1);">
+        <p style="color:#90a4ae;margin-top:12px;font-size:0.95em;">MiaoWallet Pro — Dual-mode signing session with API & Browser control</p>
+      </div>
+      <div class="video-placeholder">
+        🎬 Demo video coming soon<br>
+        <small style="color: #546e7a;">Full walkthrough: wallet setup → transfer → swap → attestation</small>
+      </div>
+      <!--
+      <div class="video-container">
+        <iframe src="https://www.youtube.com/embed/VIDEO_ID" allowfullscreen></iframe>
+      </div>
+      -->
+    </div>
+  </section>
+
+  <!-- Architecture -->
+  <section>
+    <div class="container">
+      <h2><span>Architecture</span></h2>
+      <div class="arch-diagram">
+        <!-- Root: OpenClaw -->
+        <div class="arch-box" style="margin: 0 auto;">
+          <div class="label">AI Agent</div>
+          <div class="name">🤖 OpenClaw</div>
+        </div>
+
+        <div class="arch-arrow-down">↓</div>
+
+        <!-- MiaoWallet as core middle layer -->
+        <div class="arch-box" style="margin: 0 auto; background: rgba(255, 193, 7, 0.1); border-color: rgba(255, 193, 7, 0.4);">
+          <div class="label">Wallet System</div>
+          <div class="name">🐱 MiaoWallet</div>
+        </div>
+
+        <!-- Fork: vertical trunk → horizontal bar → two vertical drops -->
+        <div class="tree-fork">
+          <div class="tree-trunk"></div>
+          <div class="tree-hbar"></div>
+          <div class="tree-vbars">
+            <div class="tree-vbar"></div>
+            <div class="tree-vbar"></div>
+          </div>
+        </div>
+
+        <!-- Two branches side by side -->
+        <div class="tree-row">
+          <!-- API Mode -->
+          <div class="tree-branch">
+            <p class="branch-label" style="color: #4fc3f7;">⚡ API Mode</p>
+            <div class="branch-flow">
+              <div class="arch-box"><div class="label">Tool Layer</div><div class="name">MCP Server</div></div>
+              <div class="arch-arrow-down">↓</div>
+              <div class="arch-box"><div class="label">Signing</div><div class="name">Bridge API</div></div>
+              <div class="arch-arrow-down">↓</div>
+              <div class="arch-box secure"><div class="label">🔒 Secure</div><div class="name">Keychain</div></div>
+              <div class="arch-arrow-down">↓</div>
+              <div class="arch-box"><div class="label">Blockchain</div><div class="name">Sui Network</div></div>
+            </div>
+            <p class="branch-desc">Fast &amp; reliable<br>For known protocols</p>
+          </div>
+
+          <!-- Browser Mode -->
+          <div class="tree-branch">
+            <p class="branch-label" style="color: #b388ff;">🌐 Browser Mode</p>
+            <div class="branch-flow">
+              <div class="arch-box purple"><div class="label">Browser</div><div class="name">Relay → DApp</div></div>
+              <div class="arch-arrow-down">↓</div>
+              <div class="arch-box purple"><div class="label">Wallet</div><div class="name">Extension</div></div>
+              <div class="arch-arrow-down">↓</div>
+              <div class="arch-box secure"><div class="label">🔒 Secure</div><div class="name">Keychain</div></div>
+              <div class="arch-arrow-down">↓</div>
+              <div class="arch-box"><div class="label">Blockchain</div><div class="name">Sui Network</div></div>
+            </div>
+            <p class="branch-desc">Universal compatibility<br>Zero integration needed</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Dual Mode -->
+  <section>
+    <div class="container">
+      <h2><span>Two Operation Modes</span></h2>
+      <div class="dual-mode">
+        <div class="mode-card">
+          <h3>⚡ API Mode</h3>
+          <div class="subtitle">Direct RPC/SDK integration</div>
+          <ul>
+            <li>Maximum speed and reliability</li>
+            <li>Build transactions programmatically</li>
+            <li>Cetus Aggregator for 30+ DEX routing</li>
+            <li>Walrus attestation storage</li>
+            <li>Best for known protocols</li>
+          </ul>
+        </div>
+        <div class="mode-card">
+          <h3>🌐 Browser Mode</h3>
+          <div class="subtitle">OpenClaw Browser Relay + Chrome Extension</div>
+          <ul>
+            <li>Works with ANY DApp — no code needed</li>
+            <li>Agent controls the page like a human</li>
+            <li>Click, fill forms, confirm transactions</li>
+            <li>New DApp? Just point to the URL</li>
+            <li>Universal DApp compatibility</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Security -->
+  <section>
+    <div class="container">
+      <h2><span>Security Model</span></h2>
+      <div class="security-grid">
+        <div class="sec-item">
+          <h4>🔐 Key Isolation</h4>
+          <p>Private keys stored in macOS Keychain (secure enclave). Never in files, env vars, or agent-accessible memory.</p>
+        </div>
+        <div class="sec-item">
+          <h4>⏱ Session Limits</h4>
+          <p>Time-limited, count-limited signing sessions. Access auto-expires. No permanent API keys.</p>
+        </div>
+        <div class="sec-item">
+          <h4>🛡 Bridge Architecture</h4>
+          <p>Agent only receives signatures, never touches private keys. Even if compromised, keys are safe.</p>
+        </div>
+        <div class="sec-item">
+          <h4>📋 Audit Trail</h4>
+          <p>Every operation stored as immutable attestation on Walrus decentralized storage.</p>
+        </div>
+        <div class="sec-item">
+          <h4>✅ Whitelist Control</h4>
+          <p>Restrict which DApp origins and contracts the agent can interact with. Prevent unauthorized calls.</p>
+        </div>
+      </div>
+      <div style="text-align:center;margin-top:24px;">
+        <img src="whitelist-screenshot.jpg" alt="Whitelist Management" style="max-width:480px;width:100%;border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,0.4);border:1px solid rgba(255,255,255,0.1);">
+        <p style="color:#90a4ae;margin-top:10px;font-size:0.9em;">Origin & Contract whitelist — only approved DApps can request signatures</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- MCP Tools -->
+  <section>
+    <div class="container">
+      <h2><span>10 MCP Tools</span></h2>
+      <div class="tools-grid">
+        <div class="tool-item">
+          <div class="tool-name">get_address</div>
+          <div class="tool-desc">Get connected wallet address and network</div>
+        </div>
+        <div class="tool-item">
+          <div class="tool-name">get_balance</div>
+          <div class="tool-desc">Query token balances (SUI, USDC, WAL...)</div>
+        </div>
+        <div class="tool-item">
+          <div class="tool-name">get_session_status</div>
+          <div class="tool-desc">Check signing session limits and expiry</div>
+        </div>
+        <div class="tool-item">
+          <div class="tool-name">list_wallets</div>
+          <div class="tool-desc">List all saved wallets across chains</div>
+        </div>
+        <div class="tool-item">
+          <div class="tool-name">sign_transaction</div>
+          <div class="tool-desc">Sign raw transaction bytes via bridge</div>
+        </div>
+        <div class="tool-item">
+          <div class="tool-name">transfer_sui</div>
+          <div class="tool-desc">Transfer SUI to any address</div>
+        </div>
+        <div class="tool-item">
+          <div class="tool-name">transfer_coin</div>
+          <div class="tool-desc">Transfer any token (USDC, WAL...)</div>
+        </div>
+        <div class="tool-item">
+          <div class="tool-name">swap_token</div>
+          <div class="tool-desc">DEX swap via Cetus Aggregator (30+ DEXs)</div>
+        </div>
+        <div class="tool-item">
+          <div class="tool-name">store_attestation</div>
+          <div class="tool-desc">Store tx attestation on Walrus</div>
+        </div>
+        <div class="tool-item">
+          <div class="tool-name">read_attestation</div>
+          <div class="tool-desc">Read attestation from Walrus by Blob ID</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Live Transactions -->
+  <section>
+    <div class="container">
+      <h2><span>Live Mainnet Transactions</span></h2>
+      <table class="tx-table">
+        <thead>
+          <tr>
+            <th>Type</th>
+            <th>Details</th>
+            <th>TX / Blob ID</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="tx-tag transfer">Transfer</span></td>
+            <td>0.1 SUI (wallet 02 → 01)</td>
+            <td><a href="https://suiscan.xyz/mainnet/tx/A2mYfXUzXwTJBcZu9RNFvJBY2423YvruPXrH3wBKcj16" target="_blank">A2mYfX...cj16</a></td>
+          </tr>
+          <tr>
+            <td><span class="tx-tag swap">Swap</span></td>
+            <td>0.5 SUI → 6.05 WAL via Cetus</td>
+            <td><a href="https://suiscan.xyz/mainnet/tx/CVvyusHbuXEKANh8d7MLqi8VyRnvmYRg59iumeuhTHAG" target="_blank">CVvyus...THAG</a></td>
+          </tr>
+          <tr>
+            <td><span class="tx-tag transfer">Transfer</span></td>
+            <td>0.01 SUI → bvlgari.sui 📦 Recorded</td>
+            <td><a href="https://suiscan.xyz/mainnet/tx/7tdZ644hwAqUEcN3tzvCrwBKYL8HetatKimy3vDGyFW1" target="_blank">7tdZ64...yFW1</a></td>
+          </tr>
+          <tr>
+            <td><span class="tx-tag attest">Attestation</span></td>
+            <td>Transfer record stored on Walrus</td>
+            <td><code style="color: #66bb6a; font-size: 0.85em;">SYaSI7...FERA</code></td>
+          </tr>
+          <tr>
+            <td><span class="tx-tag attest">Attestation</span></td>
+            <td>Transfer 0.01 SUI → bvlgari.sui 📦 Recorded</td>
+            <td><code style="color: #66bb6a; font-size: 0.85em;">kXAxaq...cQ0</code></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <p>
+        Built for <strong>Sui × OpenClaw Agent Hackathon</strong><br>
+        <a href="https://github.com/CryptoMiaobug/MiaoWellet-SecureWallet-4Openclaw" target="_blank">GitHub</a> ·
+        Powered by <a href="https://sui.io" target="_blank">Sui</a> ·
+        <a href="https://openclaw.ai" target="_blank">OpenClaw</a> ·
+        <a href="https://www.cetus.zone" target="_blank">Cetus</a> ·
+        <a href="https://walrus.site" target="_blank">Walrus</a>
+      </p>
+    </div>
+  </footer>
+
+</body>
+</html>

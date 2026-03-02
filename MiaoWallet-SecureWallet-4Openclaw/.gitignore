@@ -1,0 +1,9 @@
+venv/
+node_modules/
+__pycache__/
+*.pyc
+.wallet_addresses.json
+.whitelist.json
+*.bak*
+.DS_Store
+cetus-swap/node_modules/

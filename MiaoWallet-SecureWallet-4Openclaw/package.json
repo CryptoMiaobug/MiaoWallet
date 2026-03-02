@@ -1,0 +1,18 @@
+{
+  "name": "miaowallet-securewallet-4openclaw",
+  "version": "1.0.0",
+  "description": "**AI-Native Crypto Wallet with Hardware-Level Security**",
+  "main": "sui_dry_run.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@cetusprotocol/cetus-sui-clmm-sdk": "^5.4.0",
+    "@mysten/sui": "^2.4.0",
+    "@mysten/suins": "^1.0.2"
+  }
+}

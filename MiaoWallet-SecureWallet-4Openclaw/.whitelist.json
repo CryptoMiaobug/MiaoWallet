@@ -3,8 +3,8 @@
     "chrome-extension://",
     "http://localhost",
     "http://127.0.0.1",
-    "https://cryptomiaobug.github.io",
-    "https://app.cetus.zone"
+    "https://app.cetus.zone",
+    "https://cryptomiaobug.github.io"
   ],
   "contracts": []
 }
